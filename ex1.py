@@ -1,13 +1,10 @@
 import argparse
+import json
 
 parser = argparse.ArgumentParser()
-parser.add_argument("add", type=int,
-                    help="display a square of a given number")
-parser.add_argument("-v", "--awa", action="store_true",
-                    help="increase output verbosity")
+parser.add_argument("add", type=str, help="add a task with title, priority and creation date")
 args = parser.parse_args()
-answer = args.add**2
-if args.awa:
-    print(f"the square of {args.add} equals {answer}")
-else:
-    print(answer)
+print(json.dumps(args.add))
+
+with open("list.json", mode="w", encoding="utf-8") as write_file:
+    json.dump(args.add, write_file)
