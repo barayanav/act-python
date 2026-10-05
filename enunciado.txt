@@ -1,0 +1,113 @@
+Modo Senior DevOps  Python activado. Vamos a trabajar como si estuvieras en un equipo real ejercicios con estándar de portafolio, code review duro, tests, CI, documentación y decisiones técnicas justificadas.
+
+## Reglas del juego
+
+1. No te daré soluciones salvo que escribas exactamente `necesito la solucion de esto`.
+2. Puedo darte pistas, fuentes oficiales, conceptos, nombres de librerías, comandos de diagnóstico, preguntas socráticas y criterios de aceptación.
+3. Si tu idea es mala o subóptima, te lo diré sin rodeos y te explicaré por qué hay una mejor solución.
+4. Tú investigas, implementas, rompes, arreglas y documentas.
+5. Cada ejercicio debe parecer un proyecto real, no un script suelto.
+6. Si te estancas, no me pidas código dime qué intentaste, qué error tienes y qué alternativas evaluaste.
+
+## Sugerencias antes de partir
+
+- Trabaja con Git desde el día 1 commits atómicos, mensajes claros, ramas si hace falta.
+- Cada proyecto debe tener `README.md`, `pyproject.toml`, `src`, `tests`, `docs`, `.githubworkflows`.
+- Aprende a leer documentación oficial y PEPs. No todo es StackOverflow.
+- No uses IA para generar la solución completa. Úsala para entender conceptos, errores y trade-offs.
+- Cada ejercicio debe tener tests. Si no tiene tests, no está listo para portafolio.
+- Documenta decisiones técnicas por qué elegiste JSON, por qué no usaste una DB, por qué argparse y no click, etc.
+- Aprende inglés técnico. La mejor documentación está en inglés.
+- No acumules ejercicios a medias. Mejor 5 proyectos pulidos que 20 scripts rotos.
+
+## Roadmap propuesto
+
+1. Nivel 0 – Setup profesional Git, venv, pyproject, ruff, pytest, pre-commit, GitHub Actions.
+2. Nivel 1 – Fundamentos Python tipos, control de flujo, funciones, estructuras, archivos, errores, módulos.
+3. Nivel 2 – Python intermedio POO, dataclasses, typing, generadores, decoradores, context managers, comprehensions.
+4. Nivel 3 – Calidad y testing pytest, TDD, mocking, coverage, linting, packaging.
+5. Nivel 4 – Datos y persistencia SQL, SQLitePostgreSQL, migraciones, ORMs, diseño de esquemas.
+6. Nivel 5 – BackendAPIs FastAPI, REST, auth, validación, Docker.
+7. Nivel 6 – DevOps Linux, Bash, Docker, CICD, Kubernetes, Terraform, cloud.
+8. Nivel 7 – Arquitectura colas, caching, observabilidad, microservicios, sistemas distribuidos.
+9. Nivel 8 – Proyecto final plataforma desplegada en K8s con CICD, IaC, monitoreo y documentación.
+
+En niveles avanzados iremos metiendo SQL, Docker, Kubernetes, Terraform, Bash, Go o lo que haga falta.
+
+---
+
+## Primer ejercicio Nivel 01 — `task-cli`
+
+Objetivo crear una aplicación de línea de comandos para gestionar tareas, con persistencia en JSON, tests y CI. Sin frameworks externos para la lógica principal; solo stdlib para el core.
+
+### Requisitos funcionales
+
+- Comandos mínimos
+  - `add` añadir tarea con título, prioridad y fecha de creación.
+  - `list` listar tareas, filtrar por estado o prioridad.
+  - `done` marcar tarea como completada.
+  - `delete` eliminar tarea.
+  - `update` actualizar título o prioridad.
+  - `stats` mostrar totales por estadoprioridad.
+- IDs únicos.
+- Estados `pending`, `done`.
+- Prioridades `low`, `medium`, `high`.
+- Timestamps en ISO 8601.
+- Persistencia en archivo JSON configurable por variable de entorno o argumento.
+- Salida legible por humanos y opción `--json` para salida machine-readable.
+- Manejo de errores archivo corrupto, ID inexistente, argumentos inválidos.
+
+### Requisitos técnicos
+
+- Python 3.11+.
+- Estructura `srctask_cli`.
+- Tests con `pytest`.
+- Linting y formateo con `ruff`.
+- `pyproject.toml` con entrypoint para ejecutar como `task-cli`.
+- GitHub Actions que corra `ruff` y `pytest` en cada pushPR.
+- README con descripción, instalación, uso, ejemplos, decisiones técnicas y limitaciones.
+
+### Restricciones
+
+- No uses `click`, `typer`, `fire` ni similares para este primer ejercicio. Quiero que aprendas `argparse` y stdlib.
+- No uses base de datos todavía.
+- No uses pandas ni numpy.
+- No metas Docker aún. Lo haremos después.
+
+### Criterios de aceptación
+
+- `pytest` pasa.
+- `ruff check` pasa.
+- El CLI funciona instalado con `pip install -e .`.
+- El JSON se escribe de forma segura no debe corromperse si el proceso muere a mitad de escritura. Investiga escritura atómica.
+- Los tests no dependen del archivo real del usuario; usan `tmp_path` o similar.
+- El README permite a cualquiera ejecutar el proyecto sin preguntarte nada.
+
+### Pistas y fuentes
+
+- `argparse` documentación oficial de Python.
+- `pathlib`, `json`, `datetime`, `dataclasses`, `typing`.
+- `pytest` fixtures, `tmp_path`, `monkeypatch`, `capsys`.
+- `ruff` documentación oficial.
+- GitHub Actions workflow para Python.
+- Busca “atomic file write python”, “pytest tmp_path”, “pyproject entry points”.
+
+### Reto extra
+
+- Añade subcomandos con `argparse` sin que el código se vuelva un monstruo.
+- Añade tests de integración que ejecuten el CLI como subproceso.
+- Añade un `Makefile` o `justfile` con tareas `install`, `test`, `lint`, `format`.
+
+---
+
+Cuando termines, envíame
+
+- Link del repo o estructura de archivos.
+- README.
+- Salida de `pytest` y `ruff`.
+- Dudas concretas.
+- Qué decisiones tomaste y por qué.
+
+No me pegues todo el código si no es necesario. Yo te haré code review y te diré qué está flojo, qué huele mal y qué falta para nivel portafolio.
+
+¿Aceptas el roadmap y arrancas con `task-cli`, o quieres que primero te haga un diagnóstico rápido para saltar niveles
